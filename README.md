@@ -40,7 +40,14 @@ If you see the above success text, you should see the archive contents unzipped.
 # Design
 All face encodings, usernames, and passwords are stored in pickle files. Pickle files are able to store objects for use in another run of the program.
 
-clear_database: empties face encodings, username, and password pickle files.
+## clear_database() 
+empties face encodings, username, and password pickle files.
+
+## Face encodings
+These are the meat of what is returned from the face recognition and openCV libraries. For our purposes, it merely is a face.
+
+## Passwords
+The password generated along with a face is 1000 characters with letters, numbers, caps, and special characters. A brute force would take several millenia to crack it. That said, the pickle file is not a safe means to save passwords. It would make sense to generate a one way hash on a smaller password, then compare the hash with the stored database one way hash. This is how most passwords are stored.
 
 # Docs referenced
 https://pypi.org/project/face-recognition/ 
