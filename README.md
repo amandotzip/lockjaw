@@ -66,6 +66,5 @@ The password generated along with a face is 1000 characters with letters, number
 # Docs referenced
 https://pypi.org/project/face-recognition/ 
 https://github.com/ageitgey/face_recognition/blob/master/examples/facerec_from_webcam_faster.py 
-https://py7zr.readthedocs.io/en/latest/api.html
 
-minizip used to encrypt zip folders with compress and uncompress
+Minizip used to encrypt zip folders with compress and uncompress
