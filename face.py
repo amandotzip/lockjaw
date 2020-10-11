@@ -2,11 +2,13 @@ import face_recognition
 import cv2
 import numpy as np
 import py7zr
+import pyminizip
+import secrets
+import string
 
-#
 
-with py7zr.SevenZipFile("new5.7z",mode = 'w', password = "123") as archive:
-    archive.extractall(path=".\\")
+
+
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -33,79 +35,165 @@ known_face_encodings = [
     obama_face_encoding,
     biden_face_encoding
 ]
+
 known_face_names = [
     "Donald Glover",
     "21 Savage"
 ]
 
-# Initialize some variables
-face_locations = []
-face_encodings = []
-face_names = []
-process_this_frame = True
 
-while True:
-    # Grab a single frame of video
-    ret, frame = video_capture.read()
+#take username and password text files and read them in for program
+# define empty list
+users = []
 
-    # Resize frame of video to 1/4 size for faster face recognition processing
-    small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+# open file and read the content in a list
+with open('usernames.txt', 'r') as filehandle:
+    filecontents = filehandle.readlines()
 
-    # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-    rgb_small_frame = small_frame[:, :, ::-1]
-
-    # Only process every other frame of video to save time
-    if process_this_frame:
-        # Find all the faces and face encodings in the current frame of video
-        face_locations = face_recognition.face_locations(rgb_small_frame)
-        face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
-        print(face_encodings)
-
-        face_names = []
-        for face_encoding in face_encodings:
-            # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-            name = "Unknown"
-
-            # # If a match was found in known_face_encodings, just use the first one.
-            # if True in matches:
-            #     first_match_index = matches.index(True)
-            #     name = known_face_names[first_match_index]
-
-            # Or instead, use the known face with the smallest distance to the new face
-            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = known_face_names[best_match_index]
-
-            face_names.append(name)
-
-    process_this_frame = not process_this_frame
+    for line in filecontents:
+        # remove linebreak which is the last character of the string
+        current_user = line[:-1]
+        # add item to the list
+        users.append(current_user)
 
 
-    # Display the results
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
-        # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 4
-        right *= 4
-        bottom *= 4
-        left *= 4
 
-        # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+passwords = []
+# open file and read the content in a list
+with open('passwords.txt', 'r') as filehandle:
+    filecontents = filehandle.readlines()
 
-        # Draw a label with a name below the face
-        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-        font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+    for line in filecontents:
+        # remove linebreak which is the last character of the string
+        current_pass = line[:-1]
+        # add item to the list
+        passwords.append(current_pass)
 
-    # Display the resulting image
-    cv2.imshow('Video', frame)
 
-    # Hit 'q' on the keyboard to quit!
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
 
-# Release handle to the webcam
-video_capture.release()
-cv2.destroyAllWindows()
+#Choose option to register your face or open encrypted files
+option = input("1 to register, 2 decrypt archives")
+
+if option == "1":
+    username = input("Please enter a username: ")
+    # Initialize some variables
+    face_locations = []
+    face_encodings = [] 
+    face_names = []
+    process_this_frame = True
+
+
+    registered = False
+    print("Scanning for your gorgeous face...")
+    #As soon as the first face is found, you are registered and we will stop scanning video feed
+    while not registered:
+        # Grab a single frame of video
+        ret, frame = video_capture.read()
+
+        # Resize frame of video to 1/4 size for faster face recognition processing
+        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+
+        # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+        rgb_small_frame = small_frame[:, :, ::-1]
+
+        # Only process every other frame of video to save time
+        if process_this_frame:
+            # Find all the faces and face encodings in the current frame of video
+            face_locations = face_recognition.face_locations(rgb_small_frame)
+            face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+            
+
+
+            
+           
+
+
+            face_names = []
+            for face_encoding in face_encodings:
+                #will take the first face it sees, can restrict it to only allow 1 later
+                #store in file of registered users
+               
+                
+                #add to registered names and encodings 
+                known_face_encodings.append(face_encoding)
+                known_face_names.append(username)
+
+                #A face was found so add name into system, then decalre registerd to stop looking at video
+                users.append(username)
+                print(users)
+                with open('usernames.txt', 'w') as filehandle:
+                    for listitem in users:
+                        filehandle.write('%s\n' % listitem)
+                registered = True
+
+
+
+                # See if the face is a match for the known face(s)
+                matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+                name = "Unknown"
+
+                # # If a match was found in known_face_encodings, just use the first one.
+                # if True in matches:
+                #     first_match_index = matches.index(True)
+                #     name = known_face_names[first_match_index]
+
+                # Or instead, use the known face with the smallest distance to the new face
+                face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+                best_match_index = np.argmin(face_distances)
+                if matches[best_match_index]:
+                    name = known_face_names[best_match_index]
+
+                face_names.append(name)
+
+        process_this_frame = not process_this_frame
+
+
+        # Display the results
+        for (top, right, bottom, left), name in zip(face_locations, face_names):
+            # Scale back up face locations since the frame we detected in was scaled to 1/4 size
+            top *= 4
+            right *= 4
+            bottom *= 4
+            left *= 4
+
+            # Draw a box around the face
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+
+            # Draw a label with a name below the face
+            cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+            font = cv2.FONT_HERSHEY_DUPLEX
+            cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+
+        # Display the resulting image
+        cv2.imshow('Video', frame)
+
+        # Hit 'q' on the keyboard to quit!
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    # Release handle to the webcam
+    video_capture.release()
+    cv2.destroyAllWindows()
+
+
+alphabet = string.ascii_letters + string.digits
+password = ''.join(secrets.choice(alphabet) for i in range(20)) 
+passwords.append(password)
+with open('passwords.txt', 'w') as filehandle:
+    for listitem in passwords:
+        filehandle.write('%s\n' % listitem)
+
+
+
+# going to have to make this more friendly than literall wrtiing a list
+src_files = input("Welcome " + username + ". Choose files to encrypt: ").split(" ")
+archive_name = input("Choose a snazzy name for the archive: ")
+
+src_paths = []
+
+for files in src_files:
+    src_paths.append(archive_name)
+
+#minizip encryption
+compression_level = 5 # 1-9
+pyminizip.compress_multiple(src_files, src_paths, ".\\" + archive_name + ".zip", password, compression_level)
