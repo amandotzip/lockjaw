@@ -5,16 +5,18 @@ Encrypts data into archives via facial recognition
 This program uses webcam video feed to register your face in its database, allowing you to encrypt files into an archive. You may use you face as a key to then decrypt your archives.
 
 # Requirements
-Runs on Python 3
+- Runs on Python 3
 
-pip install the folowing
-- face_recognition (NOTE: requires Visual Studio C++)
-- opencv-python
-- numpy
-- pyminizip
+- A Webcam
+
+- pip install the folowing
+- - face_recognition ([NOTE: requires Visual Studio C++](https://visualstudio.microsoft.com/downloads/))
+-  - opencv-python
+- - numpy
+- - pyminizip
 # How to start
 ```
-py face.py
+python3 face.py
 ```
 # Register
 Register your face with option 1, your face will be scanned, a password will be generated alongside the scan, and you may encrypt files.

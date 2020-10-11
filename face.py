@@ -15,8 +15,6 @@ def clear_database():
 import face_recognition
 import cv2
 import numpy as np
-import py7zr
-import pyminizip
 import secrets
 import string
 import pickle
