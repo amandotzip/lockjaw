@@ -10,8 +10,8 @@ This program uses webcam video feed to register your face in its database, allow
 - A Webcam
 
 - pip install the folowing
-- - face_recognition ([NOTE: requires Visual Studio C++](https://visualstudio.microsoft.com/downloads/))
 -  - opencv-python
+- - face_recognition ([NOTE: requires Visual Studio C++](https://visualstudio.microsoft.com/downloads/))
 - - numpy
 - - pyminizip
 # How to start
