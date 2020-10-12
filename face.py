@@ -18,6 +18,7 @@ import numpy as np
 import secrets
 import string
 import pickle
+import pyminizip
 
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
@@ -26,6 +27,8 @@ import pickle
 #   2. Only detect faces in every other frame of video.
 print("   ///////\n  LOCKJAW \n ///////")
 
+
+# clear_database()
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -160,7 +163,10 @@ if option == "1":
     
     alphabet = string.ascii_letters + string.digits + string.punctuation
     password = ''.join(secrets.choice(alphabet) for i in range(2000))
-    print(password)
+    print("*************")
+    print("Key generated")
+    print("*************")
+    print(password + "\n")
     passwords.append(password)
     with open('passwords.pickle', 'wb') as f:
         # Pickle the 'data' dictionary using the highest protocol available.

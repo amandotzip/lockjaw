@@ -4,6 +4,10 @@ Encrypts data into archives via facial recognition
 # Overview
 This program uses webcam video feed to register your face in its database, allowing you to encrypt files into an archive. You may use you face as a key to then decrypt your archives.
 
+# Demo 
+Watch the video below
+[![Watch the video](https://imgur.com/mrdibTo.jpg)](https://www.youtube.com/watch?v=xOVlIncoakk&feature=youtu.be)
+
 # Requirements
 - Runs on Python 3
 
