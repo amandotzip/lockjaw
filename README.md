@@ -8,15 +8,16 @@ This program uses webcam video feed to register your face in its database, allow
 - Runs on Python 3
 
 - A Webcam
-
+-  [Build Tools for Visual Studio C++](https://visualstudio.microsoft.com/downloads/)
 - pip install the folowing
--  - opencv-python
-- - face_recognition ([NOTE: requires Visual Studio C++](https://visualstudio.microsoft.com/downloads/))
 - - numpy
+- - cmake
+-  - opencv-python
+- - face_recognition
 - - pyminizip
 # How to start
 ```
-python3 face.py
+python -m face.py
 ```
 # Register
 Register your face with option 1, your face will be scanned, a password will be generated alongside the scan, and you may encrypt files.
