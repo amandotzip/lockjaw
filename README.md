@@ -6,7 +6,7 @@ This program uses webcam video feed to register your face in its database, allow
 
 # Demo 
 Watch the video below
-[![Watch the video](https://imgur.com/mrdibTo.jpg)](https://www.youtube.com/watch?v=xOVlIncoakk&feature=youtu.be)
+[![Watch the video](https://imgur.com/mrdibTo.jpg)](https://youtu.be/F3NM40NjGHg)
 
 # Requirements
 - Runs on Python 3
